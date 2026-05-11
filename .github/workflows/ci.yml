@@ -26,18 +26,22 @@ jobs:
       run: |
         echo "Для воспроизводимого ML-пайплайна сохраняем:"
         echo "1. Гиперпараметры модели и random_state"
-        python -c "
-import json
-params = {
-    'n_estimators': 100,
-    'random_state': 42,
-    'test_size': 0.2
-}
-with open('model_params.json', 'w') as f:
-    json.dump(params, f)"
+        python <<EOF
+        import json
+
+        params = {
+            "n_estimators": 100,
+            "random_state": 42,
+            "test_size": 0.2
+        }
+
+        with open("model_params.json", "w") as f:
+            json.dump(params, f, indent=4)
+        EOF
         echo "2. Версии библиотек и зависимости"
         pip freeze > requirements.txt
         echo "3. Метрики качества"
-        python -c "
-with open('metrics.txt', 'w') as f:
-    f.write('accuracy=1.00')"
+        python <<EOF
+        with open("metrics.txt", "w") as f:
+            f.write("accuracy=1.00")
+        EOF
